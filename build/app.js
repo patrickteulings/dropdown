@@ -95,8 +95,10 @@ const selects = document.querySelectorAll('[data-module="select"]');
 
 for (let select of selects) {
   let mySelect = new __WEBPACK_IMPORTED_MODULE_0__vv_elements_Select__["a" /* default */](select);
-  mySelect.on('some-event', function listener1(param1, param2, param3) {
-    console.info('listener1', param1, param2, param3);
+  mySelect.on(select.dataset.selectId, function listener1(param1, param2, param3) {
+    console.log(param1.currentSelectId);
+    console.log(param1.currentValue);
+    //console.log(param1);
   });
 }
 
@@ -178,7 +180,7 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
     this.trigger.innerHTML = this.activeOption.dataset.value;
     this.el.dataset.selectedValue = this.activeOption.dataset.value;
     this.closeSelect();
-    this.emit('some-event', 'some-val1', 'some-val2', 'some-val3');
+    this.emit(this.el.dataset.selectId, this, 'some-val2', 'some-val3');
   }
 
   // ******************
@@ -221,6 +223,16 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
     if (!e.target.closest('.dd--wrapper')) {
       this.closeSelect();
     }
+  }
+
+  // Getters
+
+  get currentSelectId() {
+    return this.el.dataset.selectId;
+  }
+
+  get currentValue() {
+    return this.activeOption.dataset.value;
   }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Select;

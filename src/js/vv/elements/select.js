@@ -67,7 +67,7 @@ export default class Select extends EventEmitter{
     this.trigger.innerHTML = this.activeOption.dataset.value;    
     this.el.dataset.selectedValue = this.activeOption.dataset.value;
     this.closeSelect();
-    this.emit('some-event', 'some-val1', 'some-val2', 'some-val3');
+    this.emit(this.el.dataset.selectId, this, 'some-val2', 'some-val3');
   }
 
   // ******************
@@ -111,5 +111,15 @@ export default class Select extends EventEmitter{
     if(!e.target.closest('.dd--wrapper')) {
       this.closeSelect();
     }
+  }
+
+  // Getters
+
+  get currentSelectId() {
+    return this.el.dataset.selectId;
+  }
+
+  get currentValue() {
+    return this.activeOption.dataset.value
   }
 }
