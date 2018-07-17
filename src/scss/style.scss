@@ -1,0 +1,11 @@
+
+.dd {
+
+  &__trigger {
+
+  }
+
+  &__options[aria-hidden="true"] {
+    display: none;
+  }
+}
