@@ -116,7 +116,7 @@ export default class Select extends EventEmitter{
   // Getters
 
   get currentSelectId() {
-    return this.el.dataset.selectId;
+    return this.el.id;
   }
 
   get currentValue() {

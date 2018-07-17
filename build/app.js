@@ -228,7 +228,7 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
   // Getters
 
   get currentSelectId() {
-    return this.el.dataset.selectId;
+    return this.el.id;
   }
 
   get currentValue() {
