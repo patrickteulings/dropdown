@@ -95,10 +95,8 @@ const selects = document.querySelectorAll('[data-module="select"]');
 
 for (let select of selects) {
   let mySelect = new __WEBPACK_IMPORTED_MODULE_0__vv_elements_Select__["a" /* default */](select);
-  mySelect.on(select.dataset.selectId, function listener1(param1, param2, param3) {
-    console.log(param1.currentSelectId);
-    console.log(param1.currentValue);
-    //console.log(param1);
+  mySelect.on(select.dataset.selectId, function listener1(el, param2, param3) {
+    console.log(`The changed select: ${el.currentSelectId} now has value: ${el.currentValue}`);
   });
 }
 
