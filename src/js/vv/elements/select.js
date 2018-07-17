@@ -1,14 +1,17 @@
 
 
-export default class Select {
+import EventEmitter from 'events';
+
+export default class Select extends EventEmitter{
   constructor (_el) {
+    super();
     this.el = _el;
     this.start = 0;
     this.isPanning = false;
     this.index = 0;
     this.distanceX = 0;
     this.currentX = 0;
-    this.distanceX = 0;
+    this.distanceX = 0;    
 
     this.config = {
       thumbItem: '.touchflick-thumbs__item',
@@ -27,22 +30,7 @@ export default class Select {
     this.activeOption;
     this.isActive = false;
     this.initialize();
-    this.addEvents();
-
-    return;
-    this.el = document.querySelector('.js-hammer');
-    this.wrapper = document.querySelector('.touchflick__inner--wrap');    
-
-    this.nrSlides = this.el.querySelectorAll('.touchflick__item').length;
-    this.thumbs = this.el.querySelectorAll(this.config.thumbItem);
-    
-    this.buttonPrev = this.el.querySelector(this.config.buttonPrev);    
-    this.buttonNext = this.el.querySelector(this.config.buttonNext);
-    this.wrapper.style.transform = 'translateX(0px)';
-    this.animationFrame = 0;
-    
-    this.setNavigation();
-    
+    this.addEvents();    
   }
 
 
@@ -79,6 +67,7 @@ export default class Select {
     this.trigger.innerHTML = this.activeOption.dataset.value;    
     this.el.dataset.selectedValue = this.activeOption.dataset.value;
     this.closeSelect();
+    this.emit('some-event', 'some-val1', 'some-val2', 'some-val3');
   }
 
   // ******************
