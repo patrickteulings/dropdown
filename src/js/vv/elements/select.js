@@ -4,6 +4,7 @@ import EventEmitter from 'events';
 
 export default class Select extends EventEmitter{
   constructor (_el) {
+    this.el = _el;
     super();  
 
     this.config = {
