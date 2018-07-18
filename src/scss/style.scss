@@ -8,4 +8,10 @@
   &__options[aria-hidden="true"] {
     display: none;
   }
+
+  &__options {
+    max-height: 50px;
+    overflow: auto;
+  }
+
 }

@@ -14,19 +14,19 @@ export default class Select extends EventEmitter{
     this.distanceX = 0;    
 
     this.config = {
-      thumbItem: '.touchflick-thumbs__item',
-      buttonPrev: '.touchflick-buttons__item--prev',
-      buttonNext: '.touchflick-buttons__item--next',
-      activeClass: 'is-active',
-      disabledClass: 'is-disabled',
-      threshold: 25
+      wrapperClass: '.js-dd--wrapper',
+      triggerClass: '.js-dd__trigger',
+      optionsClass: '.js-dd__options',
+      optionClass: '.js-dd__option',      
     }
+
     if(_el.dataset.config){
       Object.assign(this.config, JSON.parse(_el.dataset.config));
     }
-    this.trigger = this.el.querySelector('.dd__trigger');
-    this.options = this.el.querySelector('.dd__options');
-    this.option = this.el.querySelectorAll('.dd__option');
+
+    this.trigger = this.el.querySelector(this.config.triggerClass);
+    this.options = this.el.querySelector(this.config.optionsClass);
+    this.option = this.el.querySelectorAll(this.config.optionClass);
     this.activeOption;
     this.isActive = false;
     this.initialize();
@@ -108,7 +108,7 @@ export default class Select extends EventEmitter{
   }
 
   onDocumentClick(e) {    
-    if(!e.target.closest('.dd--wrapper')) {
+    if(!e.target.closest(this.config.wrapperClass)) {
       this.closeSelect();
     }
   }

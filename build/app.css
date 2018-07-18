@@ -1,4 +1,8 @@
 .dd__options[aria-hidden="true"] {
   display: none; }
 
+.dd__options {
+  max-height: 50px;
+  overflow: auto; }
+
 /*# sourceMappingURL=app.css.map*/
