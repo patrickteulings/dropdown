@@ -149,12 +149,8 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
     this.addEvents();
   }
 
-  // Get's all options and selected state
+  // Selected inital selected state
   initialize() {
-    this.getActiveOption();
-  }
-
-  getActiveOption() {
     if (this.el.querySelector('[data-selected="true"]')) {
       this.activeOption = this.el.querySelector('[data-selected="true"]');
     } else {
@@ -164,6 +160,7 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
   }
 
   // Resets all values and gets selected option
+
   setActiveOption(e) {
     for (let item of this.option) {
       item.dataset.selected = "false";
@@ -197,8 +194,14 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
       });
     }
 
+    // Close on outside click
     document.addEventListener('click', e => {
       this.onDocumentClick(e);
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', e => {
+      if (e.keyCode === 27 && this.isActive === true) this.closeSelect();
     });
   }
 

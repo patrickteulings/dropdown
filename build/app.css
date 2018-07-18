@@ -1,8 +1,11 @@
-.dd__options[aria-hidden="true"] {
-  display: none; }
-
-.dd__options {
-  max-height: 50px;
-  overflow: auto; }
+.dd {
+  /* single option */ }
+  .dd__options[aria-hidden="true"] {
+    display: none; }
+  .dd__options {
+    max-height: 50px;
+    overflow: auto; }
+  .dd__option[data-selected="true"] {
+    display: none; }
 
 /*# sourceMappingURL=app.css.map*/

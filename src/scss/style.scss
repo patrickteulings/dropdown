@@ -14,4 +14,11 @@
     overflow: auto;
   }
 
+  /* single option */
+  &__option{
+    &[data-selected="true"]{
+      display: none;
+    }
+  }
+
 }
