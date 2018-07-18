@@ -4,14 +4,7 @@ import EventEmitter from 'events';
 
 export default class Select extends EventEmitter{
   constructor (_el) {
-    super();
-    this.el = _el;
-    this.start = 0;
-    this.isPanning = false;
-    this.index = 0;
-    this.distanceX = 0;
-    this.currentX = 0;
-    this.distanceX = 0;    
+    super();  
 
     this.config = {
       wrapperClass: '.js-dd--wrapper',
