@@ -1,24 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:300');
 
-.dd {
+$bordercolor: #F0F0F0;
 
-  &__trigger {
-
-  }
-
-  &__options[aria-hidden="true"] {
-    display: none;
-  }
-
-  &__options {
-    max-height: 50px;
-    overflow: auto;
-  }
-
-  /* single option */
-  &__option{
-    &[data-selected="true"]{
-      display: none;
-    }
-  }
-
+body {
+  font-family: 'Josefin Sans', Arial, sans-serif;
 }
+
+@import
+  "elements/dropdown/dropdown";
+
+
+
+
