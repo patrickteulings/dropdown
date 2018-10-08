@@ -24,6 +24,7 @@ export default class Select extends EventEmitter{
     this.el = _el;
 
     this.config = {
+      selectWrapperClass: '.js-dd--wrapper',
       triggerClass: '.js-dd__trigger',
       optionsWrapperClass: '.js-dd__options',
       optionsClass: '.js-dd__options',
@@ -83,7 +84,7 @@ export default class Select extends EventEmitter{
 
   addEvents () {
     this.trigger.addEventListener('click', (e) => {
-      this.toggleSelect()
+      this.toggleSelect();
     });
 
     for(let option of this.options){
@@ -218,7 +219,7 @@ export default class Select extends EventEmitter{
     */
 
   toggleSelect() {
-    (this.isActive) ? this.closeSelect() : this.openSelect();
+    (this.isActive === true) ? this.closeSelect() : this.openSelect();
   }
 
   openSelect() {
@@ -240,7 +241,7 @@ export default class Select extends EventEmitter{
   }
 
   onDocumentClick(e) {
-    if(!e.target.closest(this.config.wrapperClass)) {
+    if(!e.target.closest(this.config.selectWrapperClass)) {
       this.closeSelect();
     }
   }
