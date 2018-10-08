@@ -2,27 +2,30 @@
  *
  * Patrick Teulings © 1978-2018
  *
- * Hi, welcome!
+ * Hi, hello!
  *
- * This is the main Javscript file.
- * One script to rule them all!
- * Let's go and godspeed you!
+ * This is our main Javscript file.
  *
+ * Let's go and may the wind be always at your back!
+ *
+ * https://www.patrickteulings.nl
  */
 
-import Select from './vv/elements/Select';
+/** Imports */
+import Dropdown from './elements/Dropdown';
 
 /** ----------------------------------------
  a11Y enabled Custom Select box
  ---------------------------------------- */
 
-const selects = document.querySelectorAll('[data-module="select"]');
+const dropdowns = document.querySelectorAll('[data-module="select"]');
 
-for (let select of selects) {
-  let mySelect = new Select(select);
+for (let dropdown of dropdowns) {
 
-  mySelect.on('selectChanged', function listener (el, elementID, elementValue) {
+  dropdown = new Dropdown(dropdown);
+
+  dropdown.on('selectChanged', function listener (el, elementID, elementValue) {
     console.log(`Get values with public methods; ElementID: ${el.currentSelectId}  - Selected value: ${el.currentValue}`);
-    console.log(`Get values from EventEmitter; ElementID: ${elementID} - Selected Value ${elementValue}`);
+    console.log(`Get values from EventEmitter; ElementID: ${elementID} - Selected value: ${elementValue}`);
   });
 }
