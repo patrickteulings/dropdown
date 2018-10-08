@@ -121,11 +121,12 @@ export default class Select extends EventEmitter{
       this.closeSelect();
     });
 
+
     // Receive focus on wrapper
     this.wrapper.addEventListener('focus', (e) => {
       this.wrapperFocus = true;
-      //this.wrapper.dataset.focus = true;
     });
+
 
     // Custom Blur Event / Hijacking Tab for blur
     document.addEventListener('keyup', (e) => {
