@@ -127,10 +127,11 @@ export default class Select extends EventEmitter{
       //this.wrapper.dataset.focus = true;
     });
 
-    // Close select on Blur event
-    this.wrapper.addEventListener('blur', (e) => {
-      // this.wrapperFocus = false;
-      // this.closeSelect();
+    // Custom Blur Event / Hijacking Tab for blur
+    document.addEventListener('keyup', (e) => {
+      if(e.keyCode === 9 && this.isActive === true) {
+        this.closeSelect();
+      }
     });
   }
 
