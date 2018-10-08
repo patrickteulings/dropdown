@@ -33,7 +33,7 @@ export default class Select extends EventEmitter{
     this.option = this.el.querySelectorAll(this.config.optionClass);
     this.activeOption;
     this.isActive = false;
-    this.focusIndex = 0; // The element that has focus
+    this.focusIndex = -1; // The element that has focus
     this.wrapperFocus = false // Whether the wrapper has (tab) focus or not
     this.initialize();
     this.addEvents();
@@ -222,7 +222,7 @@ export default class Select extends EventEmitter{
   }
 
   resetFocusIndex() {
-    this.focusIndex = 0;
+    this.focusIndex = -1;
   }
 
   onDocumentClick(e) {
@@ -243,6 +243,11 @@ export default class Select extends EventEmitter{
   selectNextSibling(e) {
     if(this.focusIndex >= (this.option.length - 1)) return;
     this.focusIndex += 1;
+
+    // The selected item is hidden in our list, so skip it
+    if(this.option[this.focusIndex].dataset.selected === "true"){
+      this.focusIndex += 1;
+    }
     this.focusItem();
   }
 
