@@ -33,7 +33,8 @@ export default class Select extends EventEmitter{
     this.option = this.el.querySelectorAll(this.config.optionClass);
     this.activeOption;
     this.isActive = false;
-    this.focusIndex = -1; // The element that has focus
+    this.focusIndex = 0; // The element that has focus
+    this.wrapperFocus = false // Whether the wrapper has (tab) focus or not
     this.initialize();
     this.addEvents();
   }
@@ -106,13 +107,31 @@ export default class Select extends EventEmitter{
     document.addEventListener('keyup', (e) => {
       if(e.keyCode === 40 && this.isActive === true) this.selectNextSibling(e);
       if(e.keyCode === 38 && this.isActive === true) this.selectPreviousSibling(e);
+
+      // Element has focus but is not opened yet
+      if(e.keyCode === 40 && this.isActive === false && this.wrapperFocus === true) {
+        this.openSelect();
+        this.resetFocusIndex();
+      };
     });
 
 
     // Close on MouseLeave
     this.wrapper.addEventListener('mouseleave', (e) => {
       this.closeSelect();
-    })
+    });
+
+    // Receive focus on wrapper
+    this.wrapper.addEventListener('focus', (e) => {
+      this.wrapperFocus = true;
+      //this.wrapper.dataset.focus = true;
+    });
+
+    // Close select on Blur event
+    this.wrapper.addEventListener('blur', (e) => {
+      // this.wrapperFocus = false;
+      // this.closeSelect();
+    });
   }
 
 
@@ -170,7 +189,7 @@ export default class Select extends EventEmitter{
     this.trigger.innerHTML = this.activeOption.innerHTML;
     this.el.dataset.selectedValue = this.activeOption.dataset.value;
     this.closeSelect();
-    this.emit(this.el.dataset.selectId, this, 'some-val2', 'some-val3');
+    this.emit('selectChanged', this, this.el.id, this.activeOption.dataset.value, 'some-val3');
   }
 
 
@@ -189,15 +208,19 @@ export default class Select extends EventEmitter{
   openSelect() {
     this.options.setAttribute("aria-hidden","false");
     this.wrapper.setAttribute("aria-expanded","true");
-    this.focusIndex = -1;
+    this.resetFocusIndex();
     this.isActive = true;
   }
 
   closeSelect() {
     this.options.setAttribute("aria-hidden","true");
     this.wrapper.setAttribute("aria-expanded","false");
-    this.focusIndex = -1;
+    this.resetFocusIndex();
     this.isActive = false;
+  }
+
+  resetFocusIndex() {
+    this.focusIndex = 0;
   }
 
   onDocumentClick(e) {
@@ -217,14 +240,13 @@ export default class Select extends EventEmitter{
 
   selectNextSibling(e) {
     if(this.focusIndex >= (this.option.length - 1)) return;
-
     this.focusIndex += 1;
     this.focusItem();
   }
 
   selectPreviousSibling() {
     this.focusIndex -= 1;
-    if(this.focusIndex === -1) {
+    if(this.focusIndex === 0) {
       this.closeSelect();
       return;
     }
