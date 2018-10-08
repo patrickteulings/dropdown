@@ -46,7 +46,7 @@ export default class Select extends EventEmitter{
     /** Active state variables */
     this.activeOption;
     this.isActive = false;
-    this.focusIndex = -1; // The element that has focus
+    this.focusIndex = 0; // The element that has focus
     this.wrapperFocus = false // Whether the wrapper has (tab) focus or not
 
     /** Off we go... */
@@ -237,7 +237,7 @@ export default class Select extends EventEmitter{
   }
 
   resetFocusIndex() {
-    this.focusIndex = -1;
+    this.focusIndex = 0;
   }
 
   onDocumentClick(e) {

@@ -164,7 +164,7 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
     /** Active state variables */
     this.activeOption;
     this.isActive = false;
-    this.focusIndex = -1; // The element that has focus
+    this.focusIndex = 0; // The element that has focus
     this.wrapperFocus = false; // Whether the wrapper has (tab) focus or not
 
     /** Off we go... */
@@ -342,7 +342,7 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
   }
 
   resetFocusIndex() {
-    this.focusIndex = -1;
+    this.focusIndex = 0;
   }
 
   onDocumentClick(e) {
