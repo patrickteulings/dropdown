@@ -1,11 +1,46 @@
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans:300);body {
+  font-family: 'Josefin Sans', Arial, sans-serif; }
+
 .dd {
+  margin: 2em;
   /* single option */ }
+  .dd[aria-expanded="true"] .dd__trigger {
+    border-bottom-width: 0; }
+  .dd__trigger {
+    display: flex;
+    align-items: flex-end;
+    border: 1px solid #F0F0F0;
+    border-radius: 2px;
+    padding: 0.5em;
+    margin: 0; }
   .dd__options[aria-hidden="true"] {
     display: none; }
   .dd__options {
-    max-height: 50px;
-    overflow: auto; }
-  .dd__option[data-selected="true"] {
-    display: none; }
+    max-height: 500px;
+    overflow: auto;
+    border: 1px solid #F0F0F0;
+    border-top-width: 0;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px; }
+  .dd__option {
+    display: flex;
+    align-items: flex-end;
+    border-top: 1px solid #F0F0F0;
+    padding: 0.5em;
+    transition: all 0.2s ease-out;
+    text-decoration: none;
+    color: #000; }
+    .dd__option[data-selected="true"] {
+      display: none; }
+    .dd__option:focus {
+      background: #F0F0F0;
+      outline: none; }
+  .dd__option-image {
+    display: inline-block;
+    width: 20px;
+    height: 20px; }
+    .dd__option-image img {
+      max-width: 100%;
+      max-height: 100%; }
 
 /*# sourceMappingURL=app.css.map*/
