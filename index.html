@@ -1,4 +1,4 @@
-<html lang="nl">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -10,10 +10,17 @@
 
 <body>
   <section>
-    <div class="just al element for tabindex" tabindex="1">Just an element</div>
+
+    <!-- Demo element to demonstrate TAB focus -->
+    <div class="dd dd--wrapper dd--demo-element" tabindex="1">Just an empty element to demonstrate Tab Focus</div>
+
+    <!-- Select wrapper, containing all config parameters -->
     <div class="dd dd--wrapper js-dd--wrapper" tabindex="2" aria-expanded="false" id="designers" data-selected-value="" data-module="select" data-config='{"triggerClass":".js-dd__trigger", "optionsWrapperClass":".js-dd__options", "optionsClass":".js-dd__option", "preventLinks":true}'>
-      <!-- <button class="dd__trigger js-dd__trigger" aria-haspopup="true"></button> -->
+
+      <!-- Our title, Selected elements will replace it's innerHTML -->
       <h4 class="dd__trigger js-dd__trigger" aria-haspopup="true" id="selectTitle">Select a color here</h4>
+
+      <!-- Our ListBox with option -->
       <div role="listbox" class="dd__options js-dd__options" aria-hidden="true" aria-labelledby="selectTitle">
         <a role="option" tabindex="-1" class="dd__option js-dd__option" href="http://www.patrickteulings.nl" data-selected="true" data-value="Select a designer">Select a designer</a>
         <a role="option" tabindex="-1" class="dd__option js-dd__option" href="http://www.patrickteulings.nl" data-value="Walewijnos"><span class="dd__option-image"><img src="assets/bag_1.jpg" alt="bag 1"></span><span>Walewijnos</span></a>

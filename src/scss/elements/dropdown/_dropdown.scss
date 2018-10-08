@@ -1,10 +1,16 @@
-div:focus {
-
-}
 
 .dd {
-
   margin: 2em;
+
+  // Discard this class, DEMO purposes only
+
+  &--demo-element {
+    display: flex;
+    align-items: flex-end;
+    border: 1px solid $bordercolor;
+    border-radius: 2px;
+    padding: 0.5em;
+  }
 
   &[aria-expanded="true"] {
 
