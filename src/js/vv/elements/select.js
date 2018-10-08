@@ -1,13 +1,22 @@
-
-
-import EventEmitter from 'events';
+/**
+  *
+  * @desc A a11Y custom dropdown selector
+  * @author Patrick Teulings
+  *
+  * https://github.com/patrickteulings/dropdown/
+  *
+  */
 
 /**
   *
-  * @todo - give correct parameters to event emitter
-  * @todo - Open element on Tab focus or Tab-focus -> Enter key?
+  * @desc Uses eventEmitter for dispachting values
+  * You can also get the values with getter and
+  * Skip the Event Emitter
   *
   */
+
+import EventEmitter from 'events';
+
 
 export default class Select extends EventEmitter{
   constructor (_el) {
@@ -15,26 +24,31 @@ export default class Select extends EventEmitter{
     this.el = _el;
 
     this.config = {
-      wrapperClass: '.js-dd--wrapper',
       triggerClass: '.js-dd__trigger',
+      optionsWrapperClass: '.js-dd__options',
       optionsClass: '.js-dd__options',
-      optionClass: '.js-dd__option',
       preventLinks: false,
     }
+
+    /** Extends our defaults with new classnames (data-config) if desired */
 
     if(_el.dataset.config){
       Object.assign(this.config, JSON.parse(_el.dataset.config));
     }
 
-    this.wrapper = this.el;
+    /** DOM elements */
+    this.selectWrapper = this.el;
     this.trigger = this.el.querySelector(this.config.triggerClass);
-    this.triggerNew = this.el.querySelector('.js-dd__trigger-new');
-    this.options = this.el.querySelector(this.config.optionsClass);
-    this.option = this.el.querySelectorAll(this.config.optionClass);
+    this.optionsWrapper = this.el.querySelector(this.config.optionsWrapperClass);
+    this.options = this.el.querySelectorAll(this.config.optionsClass);
+
+    /** Active state variables */
     this.activeOption;
     this.isActive = false;
     this.focusIndex = -1; // The element that has focus
     this.wrapperFocus = false // Whether the wrapper has (tab) focus or not
+
+    /** Off we go... */
     this.initialize();
     this.addEvents();
   }
@@ -53,7 +67,7 @@ export default class Select extends EventEmitter{
       this.activeOption = this.el.querySelector('[data-selected="true"]');
     }
     else{
-      this.activeOption = this.option[0];
+      this.activeOption = this.options[0];
     }
     this.update();
   }
@@ -72,7 +86,7 @@ export default class Select extends EventEmitter{
       this.toggleSelect()
     });
 
-    for(let option of this.option){
+    for(let option of this.options){
       option.addEventListener('click', (e) => {
         this.setActiveOption(e);
       })
@@ -117,13 +131,13 @@ export default class Select extends EventEmitter{
 
 
     // Close on MouseLeave
-    this.wrapper.addEventListener('mouseleave', (e) => {
+    this.selectWrapper.addEventListener('mouseleave', (e) => {
       this.closeSelect();
     });
 
 
     // Receive focus on wrapper
-    this.wrapper.addEventListener('focus', (e) => {
+    this.selectWrapper.addEventListener('focus', (e) => {
       this.wrapperFocus = true;
     });
 
@@ -153,13 +167,13 @@ export default class Select extends EventEmitter{
     }
 
     /* reset previous active items */
-    for(let item of this.option){
+    for(let item of this.options){
       item.dataset.selected = "false";
     }
 
     /* set new active item */
-    this.option[this.focusIndex].dataset.selected = "true";
-    this.activeOption = this.option[this.focusIndex];
+    this.options[this.focusIndex].dataset.selected = "true";
+    this.activeOption = this.options[this.focusIndex];
     this.update();
   }
 
@@ -208,15 +222,15 @@ export default class Select extends EventEmitter{
   }
 
   openSelect() {
-    this.options.setAttribute("aria-hidden","false");
-    this.wrapper.setAttribute("aria-expanded","true");
+    this.optionsWrapper.setAttribute("aria-hidden","false");
+    this.selectWrapper.setAttribute("aria-expanded","true");
     this.resetFocusIndex();
     this.isActive = true;
   }
 
   closeSelect() {
-    this.options.setAttribute("aria-hidden","true");
-    this.wrapper.setAttribute("aria-expanded","false");
+    this.optionsWrapper.setAttribute("aria-hidden","true");
+    this.selectWrapper.setAttribute("aria-expanded","false");
     this.resetFocusIndex();
     this.isActive = false;
   }
@@ -241,13 +255,14 @@ export default class Select extends EventEmitter{
     */
 
   selectNextSibling(e) {
-    if(this.focusIndex >= (this.option.length - 1)) return;
+    if(this.focusIndex >= (this.options.length - 1)) return;
     this.focusIndex += 1;
 
     // The selected item is hidden in our list, so skip it
-    if(this.option[this.focusIndex].dataset.selected === "true"){
+    if(this.options[this.focusIndex].dataset.selected === "true"){
       this.focusIndex += 1;
     }
+
     this.focusItem();
   }
 
@@ -264,7 +279,7 @@ export default class Select extends EventEmitter{
   /** sets the actual focus on the item */
 
   focusItem() {
-    this.option[this.focusIndex].focus();
+    this.options[this.focusIndex].focus();
   }
 
 
