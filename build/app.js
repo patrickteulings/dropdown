@@ -72,33 +72,36 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vv_elements_Select__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__elements_Dropdown__ = __webpack_require__(2);
 /**
  *
  * Patrick Teulings © 1978-2018
  *
- * Hi, welcome!
+ * Hi, hello!
  *
- * This is the main Javscript file.
- * One script to rule them all!
- * Let's go and godspeed you!
+ * This is our main Javscript file.
  *
+ * Let's go and may the wind be always at your back!
+ *
+ * https://www.patrickteulings.nl
  */
 
+/** Imports */
 
 
 /** ----------------------------------------
  a11Y enabled Custom Select box
  ---------------------------------------- */
 
-const selects = document.querySelectorAll('[data-module="select"]');
+const dropdowns = document.querySelectorAll('[data-module="select"]');
 
-for (let select of selects) {
-  let mySelect = new __WEBPACK_IMPORTED_MODULE_0__vv_elements_Select__["a" /* default */](select);
+for (let dropdown of dropdowns) {
 
-  mySelect.on('selectChanged', function listener(el, elementID, elementValue) {
-    console.log(`The changed selectbox: ${el.currentSelectId}  - now has value: ${el.currentValue}`);
-    console.log(elementID, elementValue);
+  dropdown = new __WEBPACK_IMPORTED_MODULE_0__elements_Dropdown__["a" /* default */](dropdown);
+
+  dropdown.on('selectChanged', function listener(el, elementID, elementValue) {
+    console.log(`Get values with public methods; ElementID: ${el.currentSelectId}  - Selected value: ${el.currentValue}`);
+    console.log(`Get values from EventEmitter; ElementID: ${elementID} - Selected value: ${elementValue}`);
   });
 }
 
@@ -115,16 +118,24 @@ for (let select of selects) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_events__);
-
-
-
+/**
+  *
+  * @desc A a11Y custom dropdown selector
+  * @author Patrick Teulings
+  *
+  * https://github.com/patrickteulings/dropdown/
+  *
+  */
 
 /**
   *
-  * @todo - give correct parameters to event emitter
-  * @todo - Open element on Tab focus or Tab-focus -> Enter key?
+  * @desc Uses eventEmitter for dispachting values
+  * You can also get the values with getter and
+  * Skip the Event Emitter
   *
   */
+
+
 
 class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
   constructor(_el) {
@@ -132,26 +143,31 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
     this.el = _el;
 
     this.config = {
-      wrapperClass: '.js-dd--wrapper',
+      selectWrapperClass: '.js-dd--wrapper',
       triggerClass: '.js-dd__trigger',
+      optionsWrapperClass: '.js-dd__options',
       optionsClass: '.js-dd__options',
-      optionClass: '.js-dd__option',
       preventLinks: false
-    };
 
-    if (_el.dataset.config) {
+      /** Extends our defaults with new classnames (data-config) if desired */
+
+    };if (_el.dataset.config) {
       Object.assign(this.config, JSON.parse(_el.dataset.config));
     }
 
-    this.wrapper = this.el;
+    /** DOM elements */
+    this.selectWrapper = this.el;
     this.trigger = this.el.querySelector(this.config.triggerClass);
-    this.triggerNew = this.el.querySelector('.js-dd__trigger-new');
-    this.options = this.el.querySelector(this.config.optionsClass);
-    this.option = this.el.querySelectorAll(this.config.optionClass);
+    this.optionsWrapper = this.el.querySelector(this.config.optionsWrapperClass);
+    this.options = this.el.querySelectorAll(this.config.optionsClass);
+
+    /** Active state variables */
     this.activeOption;
     this.isActive = false;
-    this.focusIndex = 0; // The element that has focus
+    this.focusIndex = -1; // The element that has focus
     this.wrapperFocus = false; // Whether the wrapper has (tab) focus or not
+
+    /** Off we go... */
     this.initialize();
     this.addEvents();
   }
@@ -168,7 +184,7 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
     if (this.el.querySelector('[data-selected="true"]')) {
       this.activeOption = this.el.querySelector('[data-selected="true"]');
     } else {
-      this.activeOption = this.option[0];
+      this.activeOption = this.options[0];
     }
     this.update();
   }
@@ -186,7 +202,7 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
       this.toggleSelect();
     });
 
-    for (let option of this.option) {
+    for (let option of this.options) {
       option.addEventListener('click', e => {
         this.setActiveOption(e);
       });
@@ -227,12 +243,12 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
     });
 
     // Close on MouseLeave
-    this.wrapper.addEventListener('mouseleave', e => {
+    this.selectWrapper.addEventListener('mouseleave', e => {
       this.closeSelect();
     });
 
     // Receive focus on wrapper
-    this.wrapper.addEventListener('focus', e => {
+    this.selectWrapper.addEventListener('focus', e => {
       this.wrapperFocus = true;
     });
 
@@ -260,13 +276,13 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
     }
 
     /* reset previous active items */
-    for (let item of this.option) {
+    for (let item of this.options) {
       item.dataset.selected = "false";
     }
 
     /* set new active item */
-    this.option[this.focusIndex].dataset.selected = "true";
-    this.activeOption = this.option[this.focusIndex];
+    this.options[this.focusIndex].dataset.selected = "true";
+    this.activeOption = this.options[this.focusIndex];
     this.update();
   }
 
@@ -308,29 +324,29 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
     */
 
   toggleSelect() {
-    this.isActive ? this.closeSelect() : this.openSelect();
+    this.isActive === true ? this.closeSelect() : this.openSelect();
   }
 
   openSelect() {
-    this.options.setAttribute("aria-hidden", "false");
-    this.wrapper.setAttribute("aria-expanded", "true");
+    this.optionsWrapper.setAttribute("aria-hidden", "false");
+    this.selectWrapper.setAttribute("aria-expanded", "true");
     this.resetFocusIndex();
     this.isActive = true;
   }
 
   closeSelect() {
-    this.options.setAttribute("aria-hidden", "true");
-    this.wrapper.setAttribute("aria-expanded", "false");
+    this.optionsWrapper.setAttribute("aria-hidden", "true");
+    this.selectWrapper.setAttribute("aria-expanded", "false");
     this.resetFocusIndex();
     this.isActive = false;
   }
 
   resetFocusIndex() {
-    this.focusIndex = 0;
+    this.focusIndex = -1;
   }
 
   onDocumentClick(e) {
-    if (!e.target.closest(this.config.wrapperClass)) {
+    if (!e.target.closest(this.config.selectWrapperClass)) {
       this.closeSelect();
     }
   }
@@ -344,8 +360,14 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
     */
 
   selectNextSibling(e) {
-    if (this.focusIndex >= this.option.length - 1) return;
+    if (this.focusIndex >= this.options.length - 1) return;
     this.focusIndex += 1;
+
+    // The selected item is hidden in our list, so skip it
+    if (this.options[this.focusIndex].dataset.selected === "true") {
+      this.focusIndex += 1;
+    }
+
     this.focusItem();
   }
 
@@ -361,7 +383,7 @@ class Select extends __WEBPACK_IMPORTED_MODULE_0_events___default.a {
   /** sets the actual focus on the item */
 
   focusItem() {
-    this.option[this.focusIndex].focus();
+    this.options[this.focusIndex].focus();
   }
 
   /**
